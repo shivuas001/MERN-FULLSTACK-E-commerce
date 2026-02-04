@@ -10,6 +10,17 @@ const Navbar = () => {
             <img src={logo} alt="" />
             <p>SHOPPER</p>
         </div>
+        <div className='nav-menu'>
+            <li>Shop <hr /></li>
+            <li>Men</li>
+            <li>Women</li>
+            <li>Kids</li>
+        </div>
+        <div className='nav-cart-icon'>
+            <button>Login</button>
+            <img src={cart_icon} alt="" />
+            <div className="nav-cart-count">0</div>
+        </div>
     </div>
   )
 }
