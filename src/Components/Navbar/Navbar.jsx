@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
 
     const [menu, setMenu] = useState("shop");
+    
   return (
     <div className='navbar'>
         <div className='nav-logo'>
