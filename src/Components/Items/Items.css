@@ -1,9 +1,18 @@
 .items{
-    width: 350px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 .items p{
     margin: 6px 0px;
 }
+items img{
+   width: 100%;                  
+   height: 360px;                
+}
+
+
 .item-prices{
     display: flex;
     gap: 20px;
