@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
+const jwt = require("jsonwebtoken")
 
 
 app.use(express.json());
@@ -131,6 +132,56 @@ app.get('/allproducts', async(req,res)=>{
     let products = await Product.find({});
     console.log("fetched all products");
     res.send(products);
+})
+
+//Schema creating for user model
+const Users = mongoose.model('Users',{
+    user:{
+        type:String,
+    },
+    email:{
+        type:String,
+        unique:true,
+    },
+    password:{
+        type:String,
+    },
+    cartData:{
+        type:Object
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+    }
+})
+
+//Creating endpoint for registering users.
+app.post('/signup', async (req,res)=>{
+    let check = await Users.findOne({email:req.body.email});
+    if(check){
+        return res.status(400).json({success:false,errors:"Accout existing with this email"});
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i]=0;
+    }
+    const user = new Users({
+        name:req.body.username,
+        email:req.body.email,
+        password:req.body.password,
+        cartData:req.body.cart,
+    })
+
+    await user.save();
+
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
+
+    const token = jwt.sign(data,process.env.JWT_SECRET);
+    res.json({success:true,token});
 })
 
 
