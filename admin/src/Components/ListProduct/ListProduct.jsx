@@ -2,7 +2,30 @@ import React, { useEffect, useState } from 'react'
 import './ListProduct.css'
 import cross_icon from '../../assets/cross_icon.png'
 const ListProduct = () => {
+  const [allProducts, setAllProducts] = useState([]);
 
+  const fetchInfo = async ()=>{
+    await fetch('http://localhost:4000/allproducts')
+    .then((resp)=>resp.json())
+    .then((data)=>{setAllProducts(data)})
+  }
+
+  useEffect(()=>{
+    fetchInfo();
+  },[])
+
+  const remove_product = async (id)=>{
+    await fetch('http://localhost:4000/removeproduct',{
+      method:'POST',
+      headers:{
+        Accept:'application/json',
+        'content-type':'application/json',
+      },
+      body:JSON.stringify({id:id}),
+    })
+    await fetchInfo();
+  }
+     
   return (
     <div className='list-product'>
          <h1>All Product List</h1>
