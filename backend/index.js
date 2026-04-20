@@ -35,7 +35,6 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage})
 
 //creating upload endpoint for images
-
 app.use('/images', express.static('upload/images'))
 
 app.post("/upload",upload.single("product"),(req,res)=>{
@@ -45,8 +44,7 @@ app.post("/upload",upload.single("product"),(req,res)=>{
     })
 })
 
-//Schema for creating products
-
+//Schema for creating product
 const Product = mongoose.model("Product",{
     id:{
         type: Number,
@@ -82,6 +80,7 @@ const Product = mongoose.model("Product",{
     },
 })
 
+//API endpoint for adding products to DB
 app.post('/addproducts', async (req,res) => {
 
     let products = await Product.find({});
@@ -115,7 +114,6 @@ app.post('/addproducts', async (req,res) => {
 })
 
 //creating API for Deleting Product
-
 app.post('/removeproduct', async(req,res)=>{
     await Product.findOneAndDelete({id:req.body.id})
     console.log("removed");
@@ -127,12 +125,12 @@ app.post('/removeproduct', async(req,res)=>{
 })
 
 //creating API for getting Allproducts
-
 app.get('/allproducts', async(req,res)=>{
     let products = await Product.find({});
     console.log("fetched all products");
     res.send(products);
 })
+
 
 //Schema creating for user model
 const Users = mongoose.model('Users',{
@@ -169,7 +167,7 @@ app.post('/signup', async (req,res)=>{
         name:req.body.username,
         email:req.body.email,
         password:req.body.password,
-        cartData:req.body.cart,
+        cartData:cart,
     })
 
     await user.save();
@@ -182,6 +180,29 @@ app.post('/signup', async (req,res)=>{
 
     const token = jwt.sign(data,process.env.JWT_SECRET);
     res.json({success:true,token});
+})
+
+//Api endpoint for creating User Login
+app.post('/login',async (req,res)=>{
+    let user = await Users.findOne({email:req.body.email});
+    if(user){
+        const passCompare = req.body.password === user.password;
+        if(passCompare){
+            const data={
+                user:{
+                    id:user.id,
+                }
+            }
+            const token = jwt.sign(data,process.env.JWT_SECRET);
+            res.json({success:true,token});
+        } 
+        else{
+            res.json({success:false,errors:"Incorrect Credentials"});
+        }
+    }
+    else{
+        res.json({success:false,errors:"EmailId not found"});
+    }
 })
 
 
