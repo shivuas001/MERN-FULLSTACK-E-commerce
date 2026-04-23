@@ -12,6 +12,7 @@ const [formData, setFormData] = useState({
 
 
 
+
 const changeHandler = (e)=>{
   setFormData({...formData,[e.target.name]:e.target.value})
 }
@@ -29,14 +30,33 @@ const signUp = async ()=>{
    }).then((response)=>response.json()).then((data)=>responseData=data)
 
    if(responseData.success){
-    localStorage.setItem('token-auth',responseData.token);
+    localStorage.setItem('auth-token',responseData.token);
     window.location.replace('/');
+   }
+   else{
+    alert(responseData.errors);
    }
    
 }
 const login = async ()=>{
   console.log("signUp funtion executed",formData);
-  
+  let responseData;
+   await fetch('http://localhost:4000/login',{
+    method:'POST',
+    headers:{
+      Accept:'application/json',
+      'content-type':'application/json'
+    },
+    body:JSON.stringify(formData)
+   }).then((response)=>response.json()).then((data)=>responseData=data)
+
+   if(responseData.success){
+    localStorage.setItem('auth-token',responseData.token);
+    window.location.replace('/');
+   }
+   else{
+    alert(responseData.errors);
+   }
   
 }
 
