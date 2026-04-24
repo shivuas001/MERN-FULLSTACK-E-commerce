@@ -205,6 +205,14 @@ app.post('/login',async (req,res)=>{
     }
 })
 
+//creating endpoint of newcollection database
+app.get('/newcollections', async(req,res)=>{
+    const products = await Product.find({});
+    const newcollection = products.slice(1).slice(-8);
+    console.log("new collection fetched");
+    res.send(newcollection);
+})
+
 
 // server
 app.listen(PORT, () => {

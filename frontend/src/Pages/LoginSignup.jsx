@@ -10,9 +10,6 @@ const [formData, setFormData] = useState({
    email:""
 })
 
-
-
-
 const changeHandler = (e)=>{
   setFormData({...formData,[e.target.name]:e.target.value})
 }
@@ -71,7 +68,7 @@ const login = async ()=>{
         </div>
         <button onClick={()=>{state==="Login"?login():signUp()}}>Continue</button>
         {state==="Sign Up"
-        ? <p className='loginsignup-login'>Already have an account? <span onClick={()=>{setState("Login")}}>Login here</span></p>
+        ?<p className='loginsignup-login'>Already have an account? <span onClick={()=>{setState("Login")}}>Login here</span></p>
         :<p className='loginsignup-login'>Create an account <span onClick={()=>{setState("Sign Up")}}>Click here</span></p>
         }
         <div className="loginsignup-agree">
