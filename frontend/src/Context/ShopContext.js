@@ -18,10 +18,20 @@ const ShopContextProvider = (props)=>{
     },[])
 
     const [cartItems, setCartItems] = useState(getDefaultCart());
-    console.log(cartItems);
 
      const addToCart = (itemID) =>{
         setCartItems((prev) => ({...prev, [itemID] : prev[itemID]+1}));
+        if(localStorage.getItem('auth-token')){
+            fetch('http://localhost:4000/addtocart',{
+                method:'POST',
+                headers:{
+                    Accept:'application/json',
+                    'auth-token':`${localStorage.getItem('aut-token')}`,
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({"itemID":itemID})
+            }).then((Response)=>Response.json()).then((data)=>console.log(data))
+        }
     }
     
 

@@ -221,6 +221,10 @@ app.get('/popularinwomen', async(req,res)=>{
     res.send(popular_in_women);
 })
 
+//creating endpoint for addtocart
+app.post('/addtocart',async(req,res)=>{
+    console.log(req.body);
+})
 
 // server
 app.listen(PORT, () => {
