@@ -259,6 +259,13 @@ app.post('/removefromcart',fetchUser,async (req,res)=>{
     res.send("removed");
 })
 
+//creating endpoint to get cartData
+app.post('/getcart',fetchUser, async (req,res)=>{
+    console.log("GetCart");
+    let userData = await Users.findOne({_id:req.user.id});
+    res.json(userData.cartData);
+})
+
 // server
 app.listen(PORT, () => {
     console.log("port is running at " + PORT);
